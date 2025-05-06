@@ -67,16 +67,14 @@ jobs:
       - name: Upload public folder as artifact
         uses: actions/upload-artifact@v4
         with:
-            name: static-site-public
-            path: ./public
+          name: static-site-public
+          path: ./public
 
       - name: Upload artifact for fallback deploy
         uses: actions/upload-artifact@v4
         with:
-         name: static-site-public
-         path: ./public
-
-        
+          name: static-site-public
+          path: ./public
 
   deploy-success:
     runs-on: ubuntu-latest
