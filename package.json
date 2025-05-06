@@ -1,0 +1,17 @@
+{
+  "name": "ci-cd_project",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+  "start": "serve .",
+    "test": "jest",
+    "open": "start https://hednailiautomation.github.io/ci-cd_Project/"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "jsdom": "^19.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
