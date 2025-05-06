@@ -53,16 +53,16 @@ jobs:
           npm install
           npm test
 
-          - name: Prepare static files
-          run: |
-            mkdir public
-            for file in index.html style.css app.js; do
-              if [ -f "$file" ]; then
-                cp "$file" public/
-              else
-                echo "Warning: $file not found, skipping."
-              fi
-            done
+      - name: Prepare static files
+        run: |
+          mkdir public
+          for file in index.html style.css app.js; do
+            if [ -f "$file" ]; then
+              cp "$file" public/
+            else
+              echo "Warning: $file not found, skipping."
+            fi
+          done
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
