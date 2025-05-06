@@ -56,9 +56,9 @@ jobs:
       - name: Prepare static files
         run: |
           mkdir public
-[ -f index.html ] && cp index.html public/
-[ -f style.css ] && cp style.css public/
-[ -f app.js ] && cp app.js public/
+          [ -f index.html ] && cp index.html public/
+          [ -f style.css ] && cp style.css public/
+          [ -f app.js ] && cp app.js public/
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
