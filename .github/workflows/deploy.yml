@@ -64,11 +64,12 @@ jobs:
             fi
           done
 
-      - name: Upload static site as artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload public folder as artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: static-site-public
-          path: ./public
+            name: static-site-public
+            path: ./public
+        
 
   deploy-success:
     runs-on: ubuntu-latest
