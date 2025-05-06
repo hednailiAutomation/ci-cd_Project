@@ -53,8 +53,8 @@ jobs:
           npm install
           npm test
 
-          - name: Prepare static files
-          run: |
+      - name: Prepare static files
+        run: |
             mkdir public
             for file in index.html style.css app.js; do
               if [ -f "$file" ]; then
