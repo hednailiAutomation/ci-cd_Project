@@ -36,79 +36,42 @@ jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     needs: build-and-push-docker
-    outputs:
-      tests_passed: ${{ steps.tests.outcome == 'success' }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Run tests
-        id: tests
+      - name: Install dependencies and run tests
         run: |
           npm install
           npm test
 
-      - name: Prepare static files
-        run: |
-          mkdir public
-          for file in index.html style.css app.js; do
-            if [ -f "$file" ]; then
-              cp "$file" public/
-            else
-              echo "Warning: $file not found, skipping."
-            fi
-          done
+          - name: Prepare static files
+          run: |
+            mkdir public
+            for file in index.html style.css app.js; do
+              if [ -f "$file" ]; then
+                cp "$file" public/
+              else
+                echo "Warning: $file not found, skipping."
+              fi
+            done
 
-      - name: Upload public folder as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: static-site-public
           path: ./public
 
-      - name: Upload artifact for fallback deploy
-        uses: actions/upload-artifact@v4
-        with:
-          name: static-site-public
-          path: ./public
-
-  deploy-success:
-    runs-on: ubuntu-latest
-    needs: deploy-to-github-pages
-    if: ${{ success() }}
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: static-site-public
-          path: ./public
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-
-  deploy-last-successful-version:
-    runs-on: ubuntu-latest
-    needs: deploy-to-github-pages
-    if: ${{ failure() }}
-    steps:
-      - name: Download the last successful artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: deploy.yml
-          name: static-site-public
-          path: ./public
-          branch: main
-          event: push
-
-      - name: Deploy last successful version to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+        id: deploy
+        uses: actions/deploy-pages@v4
