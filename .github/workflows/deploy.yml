@@ -36,43 +36,55 @@ jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     needs: build-and-push-docker
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies and run tests
+      - name: Run tests
         run: |
           npm install
           npm test
+        id: tests
 
       - name: Prepare static files
         run: |
-            mkdir public
-            for file in index.html style.css app.js; do
-              if [ -f "$file" ]; then
-                cp "$file" public/
-              else
-                echo "Warning: $file not found, skipping."
-              fi
-            done
-        
+          mkdir public
+          for file in index.html style.css app.js; do
+            if [ -f "$file" ]; then
+              cp "$file" public/
+            else
+              echo "Warning: $file not found, skipping."
+            fi
+          done
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+        id: upload_artifact
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v4
-
-      - name: Deploy to GitHub Pages
-        id: deploy
+      - name: Deploy to GitHub Pages (only if tests pass)
+        if: ${{ success() && steps.tests.outcome == 'success' }}
         uses: actions/deploy-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+
+  deploy-last-successful-version:
+    runs-on: ubuntu-latest
+    needs: deploy-to-github-pages
+    if: ${{ failure() }} # Ce job s'exécute uniquement si le job de build ou de tests échoue
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download the last successful artifact (previous version)
+        uses: actions/download-artifact@v3
+        with:
+          name: public  # Nom de l'artefact précédemment uploadé
+
+      - name: Deploy the last successful version to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
