@@ -94,7 +94,7 @@ jobs:
     if: ${{ failure() }}
     steps:
       - name: Download the last successful artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v4
         with:
           workflow: deploy.yml
           name: static-site-public
