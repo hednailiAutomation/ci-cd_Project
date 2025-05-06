@@ -79,7 +79,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download the last successful artifact (previous version)
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v6
         with:
           name: public  # Nom de l'artefact précédemment uploadé
 
