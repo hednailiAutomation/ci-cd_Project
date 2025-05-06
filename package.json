@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
-    "start": "index.html",
+    "start": "start index.html",
     "test": "jest",
     "open": "start https://hednailiautomation.github.io/ci-cd_Project/"
   },
