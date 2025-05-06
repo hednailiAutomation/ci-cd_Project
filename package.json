@@ -1,17 +1,22 @@
 {
-  "name": "ci-cd_project",
-  "version": "1.0.0",
-  "main": "index.html",
-  "scripts": {
-  "start": "serve .",
-    "test": "jest",
-    "open": "start https://hednailiautomation.github.io/ci-cd_Project/"
-  },
-  "devDependencies": {
-    "jest": "^28.1.3",
-    "jsdom": "^19.0.0"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "name": "training",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "start": "index.html",
+    "test": "jest",
+    "open": "start https://hednailiautomation.github.io/ci-cd_Project/"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^22.0.0",
+    "serve": "^14.2.4"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
