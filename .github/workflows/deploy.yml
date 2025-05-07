@@ -17,17 +17,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare static files
+        run: |
+          mkdir -p public
+          if [ -f index.html ]; then cp index.html public/; fi
+          if [ -f style.css ]; then cp style.css public/; fi
+          if [ -f app.js ]; then cp app.js public/; fi
+          echo "Public contents:"
+          ls -R public
+
+      - name: Debug check before upload
+        run: |
+          echo "Current directory: $PWD"
+          ls -R ./public
+
       - name: Upload a build artifact
         uses: actions/upload-artifact@v4
         with:
-          artifact_name: static
-          path: .${{ github.workspace }}/public
+          name: static
+          path: ./public
 
       - name: Save artifact for reuse
         uses: actions/upload-artifact@v4
         with:
-          artifact_name: static
-          path: ${{ github.workspace }}/public
+          name: static
+          path: ./public
           retention-days: 7
 
       - name: Set up Node.js
@@ -92,7 +106,7 @@ jobs:
       - name: Download last successful artifact
         uses: actions/download-artifact@v4
         with:
-          artifact_name: static
+          name: static
           path: ${{ github.workspace }}/public
 
       - name: Deploy the last successful version to GitHub Pages
