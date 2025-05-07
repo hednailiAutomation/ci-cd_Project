@@ -70,7 +70,14 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: static-site
-          path: $GITHUB_WORKSPACE
+          path: ./public
+
+      - name: Save artifact for reuse
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-site
+          path: ./public
+          retention-days: 7
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
@@ -87,10 +94,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download last successful artifact
-        uses: actions/download-artifact@(SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+        uses: actions/download-artifact@v4
         with:
           name: static-site
-          path: $GITHUB_WORKSPACE
+          path: ./public
 
       - name: Deploy the last successful version to GitHub Pages
         uses: actions/deploy-pages@v4
