@@ -69,10 +69,11 @@ jobs:
         with:
           name: static-site
           path: ./public
+          id: upload_artifact
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
 
       - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v4
+        id: deploy_artifact
+        uses: actions/deploy-pages-artifact@v4
