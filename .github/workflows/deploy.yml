@@ -88,7 +88,7 @@ jobs:
       - name: Download the last successful artifact (previous version)
         uses: actions/download-artifact@v4
         with:
-          name: static-site  # Nom de l'artefact précédemment uploadé
+          name: static-site
 
       - name: Deploy the last successful version to GitHub Pages
         uses: actions/deploy-pages@v4
