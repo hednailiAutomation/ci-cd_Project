@@ -64,6 +64,12 @@ jobs:
             fi
           done
 
+      - name: Upload static site contents
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: static-site
+          path: ./public
+
       - name: Deploy to GitHub Pages (only if tests pass)
         if: ${{ success() && steps.tests.outcome == 'success' }}
         uses: actions/deploy-pages@v4
