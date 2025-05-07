@@ -64,9 +64,10 @@ jobs:
             fi
           done
 
-      - name: Upload static site
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload static site contents
+        uses: actions/upload-artifact@v3
         with:
+          name: static-site
           path: ./public
 
       - name: Configure GitHub Pages
