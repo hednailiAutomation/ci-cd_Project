@@ -40,19 +40,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies and run tests
-        run: |
-          npm install
-          npm test
-
       - name: Prepare static files
         run: |
           mkdir public
@@ -69,6 +56,19 @@ jobs:
         with:
           name: static-site
           path: ./public
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm test
 
       - name: Deploy to GitHub Pages (only if tests pass)
         if: ${{ success() && steps.tests.outcome == 'success' }}
