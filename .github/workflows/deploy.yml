@@ -87,7 +87,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download last successful artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@(SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
         with:
           name: static-site
           path: $GITHUB_WORKSPACE
