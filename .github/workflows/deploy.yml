@@ -89,8 +89,8 @@ jobs:
 
   deploy-last-successful-version:
     runs-on: ubuntu-latest
-    needs: [test-code, package-static-site]
-    if: needs.test-code.result == 'failure'
+    needs: [test-code]
+    if: ${{failure()}}
     steps:
       - name: Download last static-site artifact
         uses: actions/download-artifact@v4
