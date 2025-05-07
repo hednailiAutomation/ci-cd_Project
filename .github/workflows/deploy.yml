@@ -85,6 +85,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
 
+      - name: Debug:list artifacts
+        run: ls -R $GITHUB_WORKSPACE
+
   deploy-last-successful-version:
     runs-on: ubuntu-latest
     needs: test-code
