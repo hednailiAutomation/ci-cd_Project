@@ -70,7 +70,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: static-site
-          path: ./public
+          path: $GITHUB_WORKSPACE
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
@@ -90,6 +90,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: static-site
+          path: $GITHUB_WORKSPACE
 
       - name: Deploy the last successful version to GitHub Pages
         uses: actions/deploy-pages@v4
